@@ -78,6 +78,17 @@
             padding: 0.5rem 1rem;
             border-radius: 6px;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+        }
+        
+        .domain-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         .nav-buttons {
@@ -160,9 +171,9 @@
         <div class="domains">
             <h3>官方域名</h3>
             <div class="domain-list">
-                <div class="domain-item">www.bentiun.com</div>
-                <div class="domain-item">www.bentiun.com.cn</div>
-                <div class="domain-item">www.bentiun.cn</div>
+                <a href="https://www.bentiun.com" target="_blank" class="domain-item">www.bentiun.com</a>
+                <a href="https://www.bentiun.com.cn" target="_blank" class="domain-item">www.bentiun.com.cn</a>
+                <a href="https://www.bentiun.cn" target="_blank" class="domain-item">www.bentiun.cn</a>
             </div>
         </div>
         
