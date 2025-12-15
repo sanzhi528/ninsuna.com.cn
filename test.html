@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务器测试页面</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>服务器连接测试</h1>
+    
+    <div id="status">
+        <h2>连接状态：<span id="connectionStatus">测试中...</span></h2>
+    </div>
+    
+    <div id="fileTests">
+        <h3>文件访问测试：</h3>
+        <ul>
+            <li>index.html: <span id="indexStatus">测试中...</span></li>
+            <li>src/main.js: <span id="mainjsStatus">测试中...</span></li>
+            <li>logo.svg: <span id="logoSvgStatus">测试中...</span></li>
+        </ul>
+    </div>
+    
+    <div id="consoleOutput">
+        <h3>控制台输出：</h3>
+        <pre id="consoleLog"></pre>
+    </div>
+    
+    <script>
+        const consoleLog = document.getElementById('consoleLog');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const indexStatus = document.getElementById('indexStatus');
+        const mainjsStatus = document.getElementById('mainjsStatus');
+        const logoSvgStatus = document.getElementById('logoSvgStatus');
+        
+        // 重写console.log以在页面上显示
+        const originalConsoleLog = console.log;
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            consoleLog.textContent += args.join(' ') + '\n';
+        };
+        
+        // 测试文件访问
+        async function testFileAccess(url, element) {
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    element.innerHTML = '<span class="success">✅ 可访问</span>';
+                    console.log(`✅ ${url} - 可访问 (${response.status})`);
+                } else {
+                    element.innerHTML = `<span class="error">❌ 错误: ${response.status}</span>`;
+                    console.log(`❌ ${url} - 错误: ${response.status}`);
+                }
+            } catch (error) {
+                element.innerHTML = `<span class="error">❌ 失败: ${error.message}</span>`;
+                console.log(`❌ ${url} - 失败: ${error.message}`);
+            }
+        }
+        
+        // 运行测试
+        console.log('开始服务器连接测试...');
+        connectionStatus.innerHTML = '<span class="info">🔄 测试中...</span>';
+        
+        // 测试基本连接
+        fetch('/')
+            .then(response => {
+                if (response.ok) {
+                    connectionStatus.innerHTML = '<span class="success">✅ 连接成功</span>';
+                    console.log('✅ 服务器连接成功');
+                } else {
+                    connectionStatus.innerHTML = `<span class="error">❌ 连接错误: ${response.status}</span>`;
+                    console.log(`❌ 连接错误: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                connectionStatus.innerHTML = `<span class="error">❌ 连接失败: ${error.message}</span>`;
+                console.log(`❌ 连接失败: ${error.message}`);
+            })
+            .finally(() => {
+                // 测试文件访问
+                testFileAccess('/index.html', indexStatus);
+                testFileAccess('/src/main.js', mainjsStatus);
+                testFileAccess('/logo.svg', logoSvgStatus);
+            });
+    </script>
+</body>
+</html>

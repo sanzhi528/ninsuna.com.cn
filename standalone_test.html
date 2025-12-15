@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>独立测试页面 - 科技网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        .status {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+        
+        .server-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .links {
+            margin-top: 30px;
+        }
+        
+        .link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            margin: 10px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .link:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .timestamp {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 科技网站 - 独立测试</h1>
+        
+        <div class="status">
+            ✅ 服务器连接成功
+        </div>
+        
+        <div class="server-info">
+            <strong>服务器信息：</strong><br>
+            • 地址: http://localhost:8080<br>
+            • 状态: 运行中<br>
+            • 时间: <span id="currentTime"></span>
+        </div>
+        
+        <div class="links">
+            <a href="/built_vue.html" class="link">完整版本</a>
+            <a href="/simple_vue.html" class="link">简化版本</a>
+            <a href="/complete_vue.html" class="link">目标页面</a>
+            <a href="/index.html" class="link">原始项目</a>
+        </div>
+        
+        <div class="timestamp">
+            页面加载时间: <span id="loadTime"></span>
+        </div>
+    </div>
+
+    <script>
+        // 显示当前时间
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString('zh-CN');
+        }
+        
+        // 显示页面加载时间
+        document.getElementById('loadTime').textContent = new Date().toLocaleString('zh-CN');
+        
+        // 每秒更新一次时间
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // 添加点击效果
+        document.querySelectorAll('.link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                
+                // 显示加载状态
+                this.style.opacity = '0.7';
+                this.textContent = '加载中...';
+                
+                // 延迟跳转以显示效果
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 500);
+            });
+        });
+        
+        console.log('✅ 独立测试页面加载完成');
+    </script>
+</body>
+</html>

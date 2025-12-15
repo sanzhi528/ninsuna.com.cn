@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科技网站 - 独立版本</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .page {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            min-height: 500px;
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #764ba2;
+            margin: 30px 0 15px;
+            font-size: 1.8em;
+        }
+        
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .service-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .status-bar {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 30px auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">🚀 科技网站</div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="showPage('home')">首页</a>
+                <a class="nav-link" onclick="showPage('services')">开发需求</a>
+                <a class="nav-link" onclick="showPage('consulting')">技术咨询</a>
+                <a class="nav-link" onclick="showPage('management')">系统管理</a>
+                <a class="nav-link" href="contact_page.html">联系我们</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- 首页 -->
+        <section id="home" class="page active">
+            <h1>欢迎来到科技网站</h1>
+            <div class="status-bar">
+                ✅ 服务器连接成功 - 独立版本运行中
+            </div>
+            <p>这是一个完全独立的科技网站演示，无需任何外部依赖即可正常运行。</p>
+            
+            <h2>主要功能</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-icon">💻</div>
+                    <h3>软件开发</h3>
+                    <p>专业的软件开发服务，涵盖Web、移动端、桌面应用</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <h3>技术咨询</h3>
+                    <p>资深技术专家提供专业的技术咨询和解决方案</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚙️</div>
+                    <h3>系统管理</h3>
+                    <p>全面的系统管理和运维服务，确保系统稳定运行</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 开发需求 -->
+        <section id="services" class="page">
+            <h1>开发需求</h1>
+            <p>我们提供全面的软件开发服务，满足您的各种需求。</p>
+            
+            <h2>服务范围</h2>
+            <ul style="font-size: 1.1em; line-height: 1.8;">
+                <li>Web应用开发（前端+后端）</li>
+                <li>移动应用开发（iOS/Android）</li>
+                <li>桌面应用开发</li>
+                <li>数据库设计与优化</li>
+                <li>API接口开发</li>
+                <li>系统集成服务</li>
+            </ul>
+        </section>
+
+        <!-- 技术咨询 -->
+        <section id="consulting" class="page">
+            <h1>技术咨询</h1>
+            <p>我们的技术专家团队为您提供专业的咨询服务。</p>
+            
+            <h2>咨询领域</h2>
+            <ul style="font-size: 1.1em; line-height: 1.8;">
+                <li>技术架构设计</li>
+                <li>性能优化方案</li>
+                <li>安全风险评估</li>
+                <li>技术选型建议</li>
+                <li>团队技术培训</li>
+                <li>项目技术评审</li>
+            </ul>
+        </section>
+
+        <!-- 系统管理 -->
+        <section id="management" class="page">
+            <h1>系统管理</h1>
+            <p>专业的系统管理服务，确保您的业务系统稳定运行。</p>
+            
+            <h2>管理服务</h2>
+            <ul style="font-size: 1.1em; line-height: 1.8;">
+                <li>服务器运维管理</li>
+                <li>数据库维护</li>
+                <li>监控与告警</li>
+                <li>备份与恢复</li>
+                <li>安全防护</li>
+                <li>性能监控</li>
+            </ul>
+        </section>
+
+        <!-- 联系我们 -->
+        <section id="contact" class="page">
+            <h1>联系我们</h1>
+            <p>如有任何问题或需求，请随时与我们联系。</p>
+            
+            <div class="contact-form">
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" placeholder="请输入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="email" id="email" placeholder="请输入您的邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="message">留言</label>
+                    <textarea id="message" rows="5" placeholder="请输入您的留言内容"></textarea>
+                </div>
+                <button class="btn" onclick="submitForm()">发送消息</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 科技网站 - 独立版本 | 服务器运行在: http://localhost:8081</p>
+        <p>页面加载时间: <span id="loadTime"></span></p>
+    </footer>
+
+    <script>
+        // 页面切换功能
+        function showPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示选中的页面
+            document.getElementById(pageId).classList.add('active');
+            
+            // 更新导航链接状态
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // 表单提交功能
+        function submitForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (!name || !email || !message) {
+                alert('请填写所有必填字段！');
+                return;
+            }
+            
+            alert(`感谢您的留言，${name}！我们会尽快回复您。`);
+            
+            // 清空表单
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('message').value = '';
+        }
+        
+        // 显示页面加载时间
+        document.getElementById('loadTime').textContent = new Date().toLocaleString('zh-CN');
+        
+        console.log('🚀 科技网站独立版本加载完成');
+        
+        // 添加页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

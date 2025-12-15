@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科技网站 - 简化版</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Microsoft YaHei', Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .status-panel {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            margin-top: 40px;
+        }
+        .status-item {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .status-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .info { color: #2196F3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 科技网站</h1>
+            <p>现代化技术展示平台</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>📱 响应式设计</h3>
+                <p>完美适配各种设备屏幕，提供最佳用户体验</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ 高性能</h3>
+                <p>采用现代前端技术，确保快速加载和流畅交互</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎨 美观界面</h3>
+                <p>精心设计的用户界面，提供愉悦的视觉体验</p>
+            </div>
+        </div>
+        
+        <div class="status-panel">
+            <h3>系统状态</h3>
+            <div class="status-item">
+                <span class="status-icon">✅</span>
+                <span>服务器运行正常</span>
+            </div>
+            <div class="status-item">
+                <span class="status-icon">✅</span>
+                <span>静态文件服务正常</span>
+            </div>
+            <div class="status-item">
+                <span class="status-icon">⚠️</span>
+                <span>Vue.js模块系统需要Vite构建</span>
+            </div>
+            <div class="status-item">
+                <span class="status-icon">💡</span>
+                <span>当前显示简化版本，完整功能需要Vite</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 简单的交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加点击效果
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+            
+            // 显示当前时间
+            const timeElement = document.createElement('div');
+            timeElement.style.cssText = 'text-align: center; color: white; margin-top: 20px; opacity: 0.8;';
+            timeElement.innerHTML = `🕒 当前时间: ${new Date().toLocaleString('zh-CN')}`;
+            document.querySelector('.status-panel').appendChild(timeElement);
+        });
+    </script>
+</body>
+</html>

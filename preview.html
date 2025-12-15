@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本电科技 - 网站预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .nav a {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #3498db;
+            border: 2px solid #3498db;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav a:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
+        }
+        
+        .welcome {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .welcome h1 {
+            font-size: 2.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .welcome p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+        
+        .status {
+            background: #e74c3c;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .instructions {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            margin: 30px 0;
+        }
+        
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav a {
+                display: block;
+                margin: 10px 0;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="logo.jpg" alt="本电科技" style="height: 40px; width: auto; vertical-align: middle; margin-right: 10px;">
+                本电科技
+            </div>
+            <nav class="nav">
+                <a href="bentiun_tech.html">首页</a>
+                <a href="bentiun_tech.html#services">服务项目</a>
+                <a href="bentiun_tech.html#products">产品中心</a>
+                <a href="contact_page.html">联系我们</a>
+            </nav>
+        </header>
+        
+        <div class="main-content">
+            <div class="welcome">
+                <h1>欢迎来到本电科技</h1>
+                <p>专业的科技信息咨询、软件开发、电子产品销售服务提供商</p>
+            </div>
+            
+            <div class="status">
+                <h3>⚠️ 开发环境状态</h3>
+                <p>Node.js开发服务器暂未启动，请按照以下说明安装环境</p>
+            </div>
+            
+            <div class="instructions">
+                <h3>安装和运行步骤：</h3>
+                <ol>
+                    <li><strong>下载Node.js</strong>：访问 https://nodejs.org 下载LTS版本</li>
+                    <li><strong>安装Node.js</strong>：双击.msi文件，按照向导完成安装</li>
+                    <li><strong>验证安装</strong>：打开命令提示符，输入 <code>node --version</code></li>
+                    <li><strong>安装依赖</strong>：在项目目录运行 <code>npm install</code></li>
+                    <li><strong>启动服务器</strong>：运行 <code>npm run dev</code></li>
+                    <li><strong>访问网站</strong>：浏览器打开 http://localhost:3000</li>
+                </ol>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h3>科技信息咨询</h3>
+                    <p>专业的技术咨询服务，帮助企业解决技术难题</p>
+                </div>
+                <div class="feature-card">
+                    <h3>软件开发定制</h3>
+                    <p>根据客户需求定制开发各类软件应用</p>
+                </div>
+                <div class="feature-card">
+                    <h3>电子产品销售</h3>
+                    <p>提供高质量的电子产品和技术设备</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2024 本电科技 - 专业的科技服务提供商</p>
+            <p>联系电话：+86-0755-85216839 | 邮箱：1006993710@qq.com</p>
+        </footer>
+    </div>
+</body>
+</html>

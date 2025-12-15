@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本电科技 - 完整版</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus@2.3.8/dist/index.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-plus@2.3.8/theme-chalk/index.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Microsoft YaHei', Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        #app {
+            min-height: 100vh;
+        }
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .hero {
+            text-align: center;
+            color: white;
+            padding: 4rem 0;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .status-panel {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            color: white;
+            margin-top: 3rem;
+        }
+        .status-item {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+        }
+        .status-icon {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .info { color: #2196F3; }
+        
+        /* 关于我们页面样式 */
+        .about-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .about-section h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+        
+        .company-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .info-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .info-item h3 {
+            color: #3498db;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .info-item p {
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .info-item ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info-item li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .info-item li:last-child {
+            border-bottom: none;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3498db;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3498db;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #3498db;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-content {
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <nav class="nav">
+                <div class="logo">
+                    <img src="logo.jpg" alt="本电科技" style="height: 40px; width: auto; vertical-align: middle; margin-right: 10px;">
+                    本电科技
+                </div>
+                <div class="nav-links">
+                    <a href="bentiun_tech.html">首页</a>
+                    <a href="bentiun_tech.html#about">关于我们</a>
+                    <a href="bentiun_tech.html#services">服务</a>
+                    <a href="contact_page.html">联系我们</a>
+                </div>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <section class="hero">
+                <h1>创新科技，引领未来</h1>
+                <p>专注于为企业提供前沿的技术解决方案和数字化转型服务</p>
+                <button style="
+                    background: #4CAF50;
+                    color: white;
+                    border: none;
+                    padding: 1rem 2rem;
+                    border-radius: 5px;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    transition: background 0.3s;
+                " onmouseover="this.style.background='#45a049'" onmouseout="this.style.background='#4CAF50'">
+                    了解更多
+                </button>
+            </section>
+
+            <div class="features">
+                <div class="feature-card">
+                    <h3>📱 响应式设计</h3>
+                    <p>采用现代化响应式设计，确保在各种设备上都能提供完美的用户体验</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ 高性能</h3>
+                    <p>优化加载速度和运行效率，为用户提供流畅的交互体验</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎨 美观界面</h3>
+                    <p>精心设计的用户界面，结合现代设计理念和最佳用户体验实践</p>
+                </div>
+            </div>
+
+            <div class="status-panel">
+                <h3>系统状态</h3>
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <span>Vue.js应用运行正常</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <span>Element Plus UI组件库已加载</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">✅</span>
+                    <span>路由系统已启用</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">🕒</span>
+                    <span>当前时间: <span id="currentTime"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用CDN引入Vue 3和相关库 -->
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4.2.4/dist/vue-router.global.js"></script>
+    <script src="https://unpkg.com/pinia@2.1.6/dist/pinia.iife.js"></script>
+    <script src="https://unpkg.com/element-plus@2.3.8/dist/index.full.js"></script>
+    <script src="https://unpkg.com/@element-plus/icons-vue@2.1.0/dist/index.iife.js"></script>
+
+    <script>
+        // 创建Vue应用
+        const { createApp, ref, onMounted } = Vue;
+        const { createRouter, createWebHashHistory } = VueRouter;
+        const { createPinia } = Pinia;
+
+        // 创建路由
+        const routes = [
+            { path: '/', component: { template: '<div>首页内容</div>' } },
+            { path: '/about', component: { template: `
+                <div class="about-section">
+                    <h2>关于本电科技</h2>
+                    <div class="company-info">
+                        <div class="info-item">
+                            <h3>🏢 公司简介</h3>
+                            <p>本电科技成立于2022年8月17日，是一家专注于数字化转型和科技创新服务的科技公司。我们致力于为企业客户提供前沿的技术解决方案，助力企业在数字化时代实现业务转型和创新发展。</p>
+                        </div>
+                        
+                        <div class="info-item">
+                            <h3>🎯 企业使命</h3>
+                            <p>以技术创新为核心驱动力，为企业提供全方位的数字化解决方案，帮助客户在激烈的市场竞争中保持领先地位，实现可持续发展。</p>
+                        </div>
+                        
+                        <div class="info-item">
+                            <h3>💡 核心价值</h3>
+                            <ul>
+                                <li><strong>创新驱动</strong> - 持续探索前沿技术，引领行业发展</li>
+                                <li><strong>客户至上</strong> - 以客户需求为导向，提供定制化服务</li>
+                                <li><strong>质量为本</strong> - 严格把控产品质量和服务标准</li>
+                                <li><strong>合作共赢</strong> - 与客户建立长期战略合作伙伴关系</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-item">
+                            <h3>🚀 发展历程</h3>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-date">2022年8月</div>
+                                    <div class="timeline-content">公司正式成立，专注于科技咨询服务</div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">2023年3月</div>
+                                    <div class="timeline-content">拓展软件开发业务，服务客户超过50家</div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">2024年1月</div>
+                                    <div class="timeline-content">建立电子产品销售体系，年销售额突破千万</div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">2025年至今</div>
+                                    <div class="timeline-content">成为综合性科技服务提供商，服务网络覆盖全国</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <h3>👥 团队实力</h3>
+                            <p>我们拥有一支由资深技术专家、行业顾问和项目管理精英组成的专业团队，具备丰富的行业经验和深厚的技术积累。团队成员平均从业年限超过8年，能够为客户提供专业、高效的技术支持和服务。</p>
+                        </div>
+                    </div>
+                </div>
+            ` } },
+            { path: '/services', component: { template: '<div>服务内容</div>' } },
+            { path: '/contact', component: { template: '<div>联系我们</div>' } }
+        ];
+
+        const router = createRouter({
+            history: createWebHashHistory(),
+            routes
+        });
+
+        // 创建Pinia store
+        const useAppStore = createPinia().defineStore('app', () => {
+            const currentTime = ref('');
+            
+            const updateTime = () => {
+                currentTime.value = new Date().toLocaleString('zh-CN');
+            };
+            
+            return { currentTime, updateTime };
+        });
+
+        // 创建Vue应用
+        const app = createApp({
+            setup() {
+                const store = useAppStore();
+                
+                onMounted(() => {
+                    store.updateTime();
+                    setInterval(store.updateTime, 1000);
+                });
+                
+                return {
+                    currentTime: store.currentTime
+                };
+            },
+            template: `
+                <div id="app">
+                    <div class="header">
+                        <nav class="nav">
+                            <div class="logo">
+                                <img src="logo.jpg" alt="本电科技" style="height: 40px; width: auto; vertical-align: middle; margin-right: 10px;">
+                                本电科技
+                            </div>
+                            <div class="nav-links">
+                                <router-link to="/">首页</router-link>
+                                <router-link to="/about">关于我们</router-link>
+                                <router-link to="/services">服务</router-link>
+                                <router-link to="/contact">联系我们</router-link>
+                            </div>
+                        </nav>
+                    </div>
+
+                    <div class="main-content">
+                        <section class="hero">
+                            <h1>创新科技，引领未来</h1>
+                            <p>专注于为企业提供前沿的技术解决方案和数字化转型服务</p>
+                            <button style="
+                                background: #4CAF50;
+                                color: white;
+                                border: none;
+                                padding: 1rem 2rem;
+                                border-radius: 5px;
+                                font-size: 1.1rem;
+                                cursor: pointer;
+                                transition: background 0.3s;
+                            " @mouseover="$event.target.style.background='#45a049'" @mouseout="$event.target.style.background='#4CAF50'">
+                                了解更多
+                            </button>
+                        </section>
+
+                        <div class="features">
+                            <div class="feature-card">
+                                <h3>📱 响应式设计</h3>
+                                <p>采用现代化响应式设计，确保在各种设备上都能提供完美的用户体验</p>
+                            </div>
+                            <div class="feature-card">
+                                <h3>⚡ 高性能</h3>
+                                <p>优化加载速度和运行效率，为用户提供流畅的交互体验</p>
+                            </div>
+                            <div class="feature-card">
+                                <h3>🎨 美观界面</h3>
+                                <p>精心设计的用户界面，结合现代设计理念和最佳用户体验实践</p>
+                            </div>
+                        </div>
+
+                        <div class="status-panel">
+                            <h3>系统状态</h3>
+                            <div class="status-item">
+                                <span class="status-icon">✅</span>
+                                <span>Vue.js应用运行正常</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-icon">✅</span>
+                                <span>Element Plus UI组件库已加载</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-icon">✅</span>
+                                <span>路由系统已启用</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-icon">🕒</span>
+                                <span>当前时间: {{ currentTime }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+        });
+
+        // 注册Element Plus
+        app.use(ElementPlus);
+        
+        // 注册路由
+        app.use(router);
+        
+        // 注册Pinia
+        app.use(createPinia());
+        
+        // 注册图标
+        for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+            app.component(key, component);
+        }
+
+        // 挂载应用
+        app.mount('#app');
+    </script>
+</body>
+</html>

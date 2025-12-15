@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户中心 - 本电科技</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+            --border-radius: 8px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部 */
+        .header {
+            background: var(--white);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        /* 主要内容 */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* 功能卡片 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: var(--white);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* 表单区域 */
+        .form-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        /* 合作成果展示 */
+        .achievements-section {
+            margin-bottom: 3rem;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .achievement-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .achievement-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            text-align: center;
+        }
+        
+        .achievement-details p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+            color: var(--text-light);
+        }
+        
+        .achievement-details strong {
+            color: var(--text-dark);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        /* 订单历史 */
+        .order-history {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        tr:hover {
+            background: var(--bg-light);
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: var(--warning-color);
+        }
+        
+        .status-processing {
+            background: #dbeafe;
+            color: var(--primary-color);
+        }
+        
+        .status-completed {
+            background: #d1fae5;
+            color: var(--success-color);
+        }
+        
+        /* 购物车 */
+        .cart-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .cart-total {
+            text-align: right;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="bentiun_tech.html" class="logo">
+                    <span class="logo-icon">🚀</span>
+                    <span>本电科技</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="#dashboard" class="nav-link active">我的首页</a></li>
+                    <li><a href="#consulting" class="nav-link">技术咨询</a></li>
+                    <li><a href="#orders" class="nav-link">我的订单</a></li>
+                    <li><a href="#cart" class="nav-link">购物车</a></li>
+                    <li><a href="#profile" class="nav-link">个人资料</a></li>
+                </ul>
+                
+                <div class="user-info">
+                    <span>欢迎，张三</span>
+                    <button class="btn btn-outline" onclick="logout()">退出</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 欢迎区域 -->
+            <section id="dashboard" class="welcome-section">
+                <h1>欢迎来到本电科技客户中心</h1>
+                <p>在这里您可以进行技术咨询、下单购买、查看订单历史等操作</p>
+            </section>
+
+            <!-- 快速功能 -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>技术咨询</h3>
+                    <p>专业的科技信息咨询服务，解决您的技术难题</p>
+                    <button class="btn btn-primary" onclick="showConsultForm()">立即咨询</button>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h3>在线下单</h3>
+                    <p>购买各类电子产品，享受优质服务和售后保障</p>
+                    <button class="btn btn-primary" onclick="showOrderForm()">开始购物</button>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>订单管理</h3>
+                    <p>查看您的订单历史，跟踪订单状态</p>
+                    <button class="btn btn-primary" onclick="showOrderHistory()">查看订单</button>
+                </div>
+            </div>
+
+            <!-- 合作成果展示 -->
+            <section class="achievements-section">
+                <h2 class="section-title">合作成果案例</h2>
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🏢</div>
+                        <h3>大型制造企业数字化转型</h3>
+                        <div class="achievement-details">
+                            <p><strong>客户：</strong>某大型制造集团</p>
+                            <p><strong>合作时间：</strong>2023年5月-2024年2月</p>
+                            <p><strong>成果：</strong>成功实施智能制造系统，生产效率提升35%，成本降低20%</p>
+                            <p><strong>技术方案：</strong>工业物联网平台 + 数据分析系统</p>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🏪</div>
+                        <h3>连锁零售企业信息化建设</h3>
+                        <div class="achievement-details">
+                            <p><strong>客户：</strong>某知名连锁零售企业</p>
+                            <p><strong>合作时间：</strong>2023年8月-2024年6月</p>
+                            <p><strong>成果：</strong>构建统一的信息管理平台，实现全国300+门店数据实时同步</p>
+                            <p><strong>技术方案：</strong>云端ERP系统 + 移动端应用</p>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🏥</div>
+                        <h3>医疗机构智慧服务系统</h3>
+                        <div class="achievement-details">
+                            <p><strong>客户：</strong>某三甲医院</p>
+                            <p><strong>合作时间：</strong>2024年1月-2024年9月</p>
+                            <p><strong>成果：</strong>开发智慧医疗服务平台，患者就诊时间缩短40%</p>
+                            <p><strong>技术方案：</strong>微信小程序 + 医院信息系统集成</p>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🏫</div>
+                        <h3>教育机构在线学习平台</h3>
+                        <div class="achievement-details">
+                            <p><strong>客户：</strong>某知名教育集团</p>
+                            <p><strong>合作时间：</strong>2024年3月-2024年12月</p>
+                            <p><strong>成果：</strong>搭建在线教育平台，服务10万+学员，课程完成率提升50%</p>
+                            <p><strong>技术方案：</strong>直播系统 + 学习管理系统</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 技术咨询表单 -->
+            <section id="consulting" class="form-section" style="display: none;">
+                <h2 class="section-title">技术咨询</h2>
+                <form id="consultForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="consultName">姓名</label>
+                            <input type="text" id="consultName" value="张三" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="consultPhone">电话</label>
+                            <input type="tel" id="consultPhone" value="13800138001" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consultType">咨询类型</label>
+                        <select id="consultType" required>
+                            <option value="">请选择咨询类型</option>
+                            <option value="tech">技术咨询</option>
+                            <option value="software">软件开发</option>
+                            <option value="product">产品咨询</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consultTitle">咨询标题</label>
+                        <input type="text" id="consultTitle" placeholder="请输入咨询标题" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consultContent">详细描述</label>
+                        <textarea id="consultContent" rows="6" placeholder="请详细描述您的需求或问题..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="consultUrgency">紧急程度</label>
+                        <select id="consultUrgency" required>
+                            <option value="low">一般</option>
+                            <option value="medium">中等</option>
+                            <option value="high">紧急</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">提交咨询</button>
+                </form>
+            </section>
+
+            <!-- 订单历史 -->
+            <section id="orders" class="form-section" style="display: none;">
+                <h2 class="section-title">我的订单</h2>
+                <div class="order-history">
+                    <div class="table-header">
+                        <h3>订单历史</h3>
+                        <button class="btn btn-primary" onclick="showOrderForm()">新建订单</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>订单号</th>
+                                <th>产品名称</th>
+                                <th>数量</th>
+                                <th>金额</th>
+                                <th>下单时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableBody">
+                            <!-- 订单数据将通过JavaScript动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 购物车 -->
+            <section id="cart" class="cart-section" style="display: none;">
+                <h2 class="section-title">购物车</h2>
+                <div id="cartItems">
+                    <!-- 购物车商品将通过JavaScript动态生成 -->
+                </div>
+                <div class="cart-total">
+                    <p>总计: <span id="cartTotal">¥0.00</span></p>
+                    <button class="btn btn-success" onclick="checkout()">立即结算</button>
+                </div>
+            </section>
+
+            <!-- 个人资料 -->
+            <section id="profile" class="form-section" style="display: none;">
+                <h2 class="section-title">个人资料</h2>
+                <form id="profileForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="profileName">姓名</label>
+                            <input type="text" id="profileName" value="张三" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">邮箱</label>
+                            <input type="email" id="profileEmail" value="zhangsan@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="profilePhone">电话</label>
+                            <input type="tel" id="profilePhone" value="13800138001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileCompany">公司</label>
+                            <input type="text" id="profileCompany" value="示例科技有限公司">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profileAddress">地址</label>
+                        <textarea id="profileAddress" rows="3">广东省深圳市南山区科技园</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">保存资料</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- 产品选择模态框 -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>选择产品</h3>
+                <button class="close-modal" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <div id="productList">
+                <!-- 产品列表将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟数据
+        const products = [
+            { id: 1, name: '智能办公设备', price: 1299, category: '办公' },
+            { id: 2, name: '网络设备', price: 599, category: '网络' },
+            { id: 3, name: '智能家居设备', price: 299, category: '家居' },
+            { id: 4, name: '高性能电脑', price: 4999, category: '电脑' },
+            { id: 5, name: '专业打印机', price: 1899, category: '办公' },
+            { id: 6, name: '企业级路由器', price: 1299, category: '网络' }
+        ];
+        
+        const orders = [
+            { id: 'ORD001', product: '智能办公设备', quantity: 2, amount: '¥2,598', time: '2025-01-20', status: 'pending' },
+            { id: 'ORD002', product: '网络设备', quantity: 1, amount: '¥599', time: '2025-01-19', status: 'processing' },
+            { id: 'ORD003', product: '智能家居设备', quantity: 3, amount: '¥897', time: '2025-01-18', status: 'completed' }
+        ];
+        
+        let cart = [];
+
+        // 页面导航
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 更新活跃状态
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 显示对应内容
+                const targetId = this.getAttribute('href').substring(1);
+                document.querySelectorAll('.form-section, .cart-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                if (targetId === 'dashboard') {
+                    document.querySelector('.welcome-section').style.display = 'block';
+                    document.querySelector('.features-grid').style.display = 'grid';
+                } else {
+                    document.querySelector('.welcome-section').style.display = 'none';
+                    document.querySelector('.features-grid').style.display = 'none';
+                    document.getElementById(targetId).style.display = 'block';
+                }
+                
+                // 加载对应数据
+                loadSectionData(targetId);
+            });
+        });
+
+        // 加载数据
+        function loadSectionData(sectionId) {
+            switch(sectionId) {
+                case 'orders':
+                    loadOrderHistory();
+                    break;
+                case 'cart':
+                    loadCart();
+                    break;
+                case 'consulting':
+                    // 重置咨询表单
+                    document.getElementById('consultForm').reset();
+                    break;
+            }
+        }
+
+        function loadOrderHistory() {
+            const tbody = document.getElementById('orderTableBody');
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.product}</td>
+                    <td>${order.quantity}</td>
+                    <td>${order.amount}</td>
+                    <td>${order.time}</td>
+                    <td><span class="status-badge status-${order.status}">${getOrderStatusText(order.status)}</span></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="viewOrderDetail('${order.id}')">查看详情</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadCart() {
+            const cartContainer = document.getElementById('cartItems');
+            const totalElement = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p>购物车为空</p>';
+                totalElement.textContent = '¥0.00';
+                return;
+            }
+            
+            let total = 0;
+            cartContainer.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <h4>${item.name}</h4>
+                            <p>单价: ¥${item.price}</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <button onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                            <span style="font-weight: bold;">¥${itemTotal}</span>
+                            <button class="btn btn-danger btn-sm" onclick="removeFromCart(${item.id})">删除</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            totalElement.textContent = `¥${total.toFixed(2)}`;
+        }
+
+        function getOrderStatusText(status) {
+            const statusMap = {
+                'pending': '待处理',
+                'processing': '处理中',
+                'completed': '已完成'
+            };
+            return statusMap[status] || status;
+        }
+
+        // 功能函数
+        function showConsultForm() {
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelector('a[href="#consulting"]').classList.add('active');
+            
+            document.querySelector('.welcome-section').style.display = 'none';
+            document.querySelector('.features-grid').style.display = 'none';
+            document.getElementById('consulting').style.display = 'block';
+        }
+
+        function showOrderForm() {
+            openModal('productModal');
+            loadProductList();
+        }
+
+        function showOrderHistory() {
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelector('a[href="#orders"]').classList.add('active');
+            
+            document.querySelector('.welcome-section').style.display = 'none';
+            document.querySelector('.features-grid').style.display = 'none';
+            document.getElementById('orders').style.display = 'block';
+            loadOrderHistory();
+        }
+
+        function loadProductList() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = products.map(product => `
+                <div style="padding: 1rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4>${product.name}</h4>
+                        <p>类别: ${product.category} | 价格: ¥${product.price}</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="addToCart(${product.id})">加入购物车</button>
+                </div>
+            `).join('');
+        }
+
+        // 购物车操作
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1
+                });
+            }
+            
+            closeModal('productModal');
+            alert(`已将"${product.name}"加入购物车！`);
+            
+            // 更新购物车显示
+            if (document.getElementById('cart').style.display === 'block') {
+                loadCart();
+            }
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    loadCart();
+                }
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            loadCart();
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('购物车为空，无法结算');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            if (confirm(`确认结算？总金额: ¥${total.toFixed(2)}`)) {
+                alert('订单提交成功！我们将尽快处理您的订单。');
+                cart = [];
+                loadCart();
+            }
+        }
+
+        // 模态框控制
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // 表单提交
+        document.getElementById('consultForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('咨询提交成功！我们的专业顾问将尽快联系您。');
+            this.reset();
+        });
+
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('个人资料保存成功！');
+        });
+
+        // 其他功能
+        function logout() {
+            if (confirm('确定要退出登录吗？')) {
+                alert('已退出登录');
+                // 在实际应用中，这里应该跳转到登录页面
+            }
+        }
+
+        function viewOrderDetail(orderId) {
+            alert(`查看订单详情: ${orderId}`);
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 客户中心加载完成');
+        });
+    </script>
+</body>
+</html>

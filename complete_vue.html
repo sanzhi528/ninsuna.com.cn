@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本电科技 - 企业管理系统</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus@2.3.8/dist/index.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Microsoft YaHei', Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        #app {
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.2rem;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .phone, .address {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .nav-links a, .nav-links button {
+            text-decoration: none;
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .nav-links a:hover, .nav-links button:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        .btn-primary {
+            background: #4CAF50 !important;
+            color: white !important;
+        }
+        .btn-primary:hover {
+            background: #45a049 !important;
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 80px auto 2rem;
+            padding: 0 2rem;
+        }
+        .hero {
+            text-align: center;
+            color: white;
+            padding: 3rem 0;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        .dashboard {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .dashboard h2 {
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .module-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .module-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .module-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .module-features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        .module-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .module-features li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn-info {
+            background: #2196F3;
+            color: white;
+        }
+        .btn-warning {
+            background: #FF9800;
+            color: white;
+        }
+        
+        /* 动态内容区域样式 */
+        .dynamic-section {
+            animation: fadeIn 0.5s ease-in-out;
+            margin-top: 2rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .btn:hover {
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        /* 页脚样式 */
+        .footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 导航栏 -->
+        <header class="header">
+            <nav class="nav">
+                <div class="logo-section">
+                    <span>🚀</span>
+                    <span>本电科技企业管理系统</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#" onclick="showHome()">首页</a>
+                    <a href="#" onclick="showServices()">服务</a>
+                    <a href="#" onclick="showAbout()">关于</a>
+                    <button class="btn-primary" onclick="openConsultModal()">立即咨询</button>
+                    <button onclick="openLoginModal()">后台登录</button>
+                    <button onclick="openRegisterModal()">用户注册</button>
+                </div>
+                <div class="contact-info">
+                    <span class="phone">📞 400-123-4567</span>
+                    <span class="address">📍 北京市海淀区中关村科技园</span>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 主要内容 -->
+        <div class="main-content">
+            <!-- 英雄区域 -->
+            <section class="hero">
+                <h1>创新科技，引领未来</h1>
+                <p>专业的企业管理解决方案，助力您的业务数字化转型</p>
+                <button class="btn btn-success" onclick="openConsultModal()">
+                    免费咨询 →
+                </button>
+            </section>
+
+            <!-- 功能模块区域 -->
+            <div class="dashboard">
+                <h2>🚀 核心服务内容</h2>
+                
+                <div class="modules">
+                    <!-- 电子产品销售模块 -->
+                    <div class="module-card">
+                        <h3>📱 电子产品销售</h3>
+                        <p>智能手机、电脑设备、智能家居、办公设备等电子产品销售与技术支持</p>
+                        <ul class="module-features">
+                            <li>智能手机销售</li>
+                            <li>电脑设备销售</li>
+                            <li>智能家居设备</li>
+                            <li>办公设备销售</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="showElectronics()">查看产品</button>
+                            <button class="btn btn-info" onclick="openConsultModal()">咨询详情</button>
+                        </div>
+                    </div>
+
+                    <!-- 信息咨询服务模块 -->
+                    <div class="module-card">
+                        <h3>💡 信息咨询服务</h3>
+                        <p>市场调研、数据分析、行业报告、信息整合等专业咨询服务</p>
+                        <ul class="module-features">
+                            <li>市场调研分析</li>
+                            <li>数据统计分析</li>
+                            <li>行业研究报告</li>
+                            <li>信息整合服务</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <button class="btn btn-info" onclick="showInfoConsulting()">咨询详情</button>
+                            <button class="btn btn-success" onclick="openConsultModal()">立即咨询</button>
+                        </div>
+                    </div>
+
+                    <!-- 技术咨询服务模块 -->
+                    <div class="module-card">
+                        <h3>🔧 技术咨询服务</h3>
+                        <p>技术架构设计、系统优化、技术选型、解决方案定制等专业服务</p>
+                        <ul class="module-features">
+                            <li>技术架构设计</li>
+                            <li>系统优化服务</li>
+                            <li>技术选型咨询</li>
+                            <li>解决方案定制</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <button class="btn btn-warning" onclick="showTechConsulting()">技术咨询</button>
+                            <button class="btn btn-info" onclick="openConsultModal()">咨询详情</button>
+                        </div>
+                    </div>
+
+                    <!-- 软件开发服务模块 -->
+                    <div class="module-card">
+                        <h3>💻 软件开发服务</h3>
+                        <p>Web应用、移动应用、桌面软件、企业系统等定制开发服务</p>
+                        <ul class="module-features">
+                            <li>Web应用开发</li>
+                            <li>移动应用开发</li>
+                            <li>桌面软件开发</li>
+                            <li>企业系统定制</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <button class="btn btn-success" onclick="showSoftwareDev()">开发需求</button>
+                            <button class="btn btn-info" onclick="openConsultModal()">咨询详情</button>
+                        </div>
+                    </div>
+
+                    <!-- 硬件开发服务模块 -->
+                    <div class="module-card">
+                        <h3>⚙️ 硬件开发服务</h3>
+                        <p>嵌入式系统、物联网设备、智能硬件、工业控制等硬件开发</p>
+                        <ul class="module-features">
+                            <li>嵌入式系统开发</li>
+                            <li>物联网设备开发</li>
+                            <li>智能硬件开发</li>
+                            <li>工业控制系统</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <button class="btn btn-danger" onclick="showHardwareDev()">硬件方案</button>
+                            <button class="btn btn-info" onclick="openConsultModal()">咨询详情</button>
+                        </div>
+                    </div>
+
+                    <!-- 系统管理服务模块 -->
+                    <div class="module-card">
+                        <h3>🔄 系统管理服务</h3>
+                        <p>权限管理、数据统计、系统配置、日志审计等企业管理系统</p>
+                        <ul class="module-features">
+                            <li>用户权限管理</li>
+                            <li>数据统计分析</li>
+                            <li>系统配置管理</li>
+                            <li>操作日志审计</li>
+                        </ul>
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" onclick="showSystemManagement()">管理系统</button>
+                            <button class="btn btn-info" onclick="openLoginModal()">管理员登录</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 页脚信息 -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <p>&copy; 2025 本电科技 版权所有</p>
+                    <p>联系电话: 400-123-4567 | 地址: 北京市海淀区中关村科技园</p>
+                </div>
+            </footer>
+        </div>
+
+        <!-- 咨询模态框 -->
+        <div id="consultModal" class="modal">
+            <div class="modal-content">
+                <h3>💬 在线咨询</h3>
+                <form id="consultForm">
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input type="text" placeholder="请输入您的姓名" required>
+                    </div>
+                    <div class="form-group">
+                        <label>联系电话</label>
+                        <input type="tel" placeholder="请输入联系电话" required>
+                    </div>
+                    <div class="form-group">
+                        <label>咨询内容</label>
+                        <textarea placeholder="请详细描述您的需求..." required></textarea>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button type="submit" class="btn btn-success">提交咨询</button>
+                        <button type="button" class="btn" onclick="closeConsultModal()">取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 登录模态框 -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <h3>⚙️ 后台登录</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>用户名</label>
+                        <input type="text" placeholder="请输入用户名" required>
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" placeholder="请输入密码" required>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button type="submit" class="btn btn-warning">登录</button>
+                        <button type="button" class="btn" onclick="closeLoginModal()">取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 注册模态框 -->
+        <div id="registerModal" class="modal">
+            <div class="modal-content">
+                <h3>👥 用户注册</h3>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>用户名</label>
+                        <input type="text" placeholder="请输入用户名" required>
+                    </div>
+                    <div class="form-group">
+                        <label>邮箱</label>
+                        <input type="email" placeholder="请输入邮箱" required>
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" placeholder="请输入密码" required>
+                    </div>
+                    <div class="form-group">
+                        <label>确认密码</label>
+                        <input type="password" placeholder="请再次输入密码" required>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button type="submit" class="btn btn-success">注册</button>
+                        <button type="button" class="btn" onclick="closeRegisterModal()">取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 实时时间显示
+        function updateTime() {
+            const timeElement = document.getElementById('currentTime');
+            if (timeElement) {
+                timeElement.textContent = new Date().toLocaleString('zh-CN');
+            }
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // 模态框控制函数
+        function openConsultModal() {
+            document.getElementById('consultModal').classList.add('active');
+        }
+        
+        function closeConsultModal() {
+            document.getElementById('consultModal').classList.remove('active');
+        }
+
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function openRegisterModal() {
+            document.getElementById('registerModal').classList.add('active');
+        }
+        
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.remove('active');
+        }
+
+        // 表单提交处理
+        document.getElementById('consultForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('咨询信息已提交！我们将尽快与您联系。');
+            closeConsultModal();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('登录成功！正在跳转到后台管理系统...');
+            closeLoginModal();
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('注册成功！欢迎加入本电科技。');
+            closeRegisterModal();
+        });
+
+        // 清除动态内容函数
+        function clearDynamicContent() {
+            const mainContent = document.querySelector('.main-content');
+            const dynamicElements = mainContent.querySelectorAll('.dynamic-section');
+            dynamicElements.forEach(element => {
+                element.remove();
+            });
+        }
+
+        // 导航功能函数
+        function showHome() {
+            clearDynamicContent();
+            document.querySelector('.hero').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showServices() {
+            clearDynamicContent();
+            document.querySelector('.dashboard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showAbout() {
+            clearDynamicContent();
+            const aboutSection = document.createElement('div');
+            aboutSection.className = 'dynamic-section';
+            aboutSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>关于本电科技</h2>
+                    <p>本电科技是一家专注于企业数字化转型的技术服务公司，致力于为客户提供创新的技术解决方案。</p>
+                    <div class="modules">
+                        <div class="module-card">
+                            <h3>我们的使命</h3>
+                            <p>通过技术创新，助力企业实现数字化转型，提升运营效率。</p>
+                        </div>
+                        <div class="module-card">
+                            <h3>我们的愿景</h3>
+                            <p>成为行业领先的技术服务提供商，推动产业升级。</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(aboutSection);
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 其他功能函数
+        function showOrderManagement() {
+            clearDynamicContent();
+            // 模拟订单管理页面
+            const orderSection = document.createElement('div');
+            orderSection.className = 'dynamic-section';
+            orderSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>📋 订单管理系统</h2>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                        <h4>订单列表</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem; border-bottom: 1px solid #ddd;">
+                                <strong>订单 #001</strong> - 咨询服务 - <span style="color: #4CAF50;">进行中</span>
+                            </li>
+                            <li style="padding: 0.5rem; border-bottom: 1px solid #ddd;">
+                                <strong>订单 #002</strong> - 技术开发 - <span style="color: #2196F3;">待处理</span>
+                            </li>
+                            <li style="padding: 0.5rem; border-bottom: 1px solid #ddd;">
+                                <strong>订单 #003</strong> - 系统维护 - <span style="color: #FF9800;">已完成</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(orderSection);
+            orderSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showDashboard() {
+            clearDynamicContent();
+            // 模拟数据看板
+            const dashboardSection = document.createElement('div');
+            dashboardSection.className = 'dynamic-section';
+            dashboardSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>📊 数据看板</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div style="background: #4CAF50; color: white; padding: 1rem; border-radius: 5px; text-align: center;">
+                            <h3>今日咨询</h3>
+                            <p style="font-size: 2rem; margin: 0;">12</p>
+                        </div>
+                        <div style="background: #2196F3; color: white; padding: 1rem; border-radius: 5px; text-align: center;">
+                            <h3>本月订单</h3>
+                            <p style="font-size: 2rem; margin: 0;">45</p>
+                        </div>
+                        <div style="background: #FF9800; color: white; padding: 1rem; border-radius: 5px; text-align: center;">
+                            <h3>用户数量</h3>
+                            <p style="font-size: 2rem; margin: 0;">128</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(dashboardSection);
+            dashboardSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showUserManagement() {
+            clearDynamicContent();
+            // 模拟用户管理页面
+            const userSection = document.createElement('div');
+            userSection.className = 'dynamic-section';
+            userSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>👥 用户管理系统</h2>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                        <h4>用户列表</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem; border-bottom: 1px solid #ddd;">
+                                <strong>张三</strong> - 管理员 - 1006993710@qq.com
+                            </li>
+                            <li style="padding: 0.5rem; border-bottom: 1px solid #ddd;">
+                                <strong>李四</strong> - 普通用户 - 1006993710@qq.com
+                            </li>
+                            <li style="padding: 0.5rem; border-bottom: 1px solid #ddd;">
+                                <strong>王五</strong> - VIP用户 - 1006993710@qq.com
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(userSection);
+            userSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 新增服务功能函数
+        function showElectronics() {
+            clearDynamicContent();
+            const electronicsSection = document.createElement('div');
+            electronicsSection.className = 'dynamic-section';
+            electronicsSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>📱 电子产品销售</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div style="background: white; padding: 1rem; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                            <h4>智能手机</h4>
+                            <p>最新旗舰手机，支持5G网络</p>
+                            <p style="color: #4CAF50; font-weight: bold;">¥2999起</p>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                            <h4>电脑设备</h4>
+                            <p>高性能笔记本电脑和台式机</p>
+                            <p style="color: #4CAF50; font-weight: bold;">¥4999起</p>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                            <h4>智能家居</h4>
+                            <p>智能音箱、智能灯具等</p>
+                            <p style="color: #4CAF50; font-weight: bold;">¥299起</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(electronicsSection);
+            electronicsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showInfoConsulting() {
+            clearDynamicContent();
+            const infoSection = document.createElement('div');
+            infoSection.className = 'dynamic-section';
+            infoSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>💡 信息咨询服务</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #2196F3;">市场调研分析</h4>
+                            <p>深度行业调研，精准市场定位，帮助企业了解目标市场</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥8,000 - ¥15,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 竞争对手分析报告</li>
+                                <li>• 目标用户画像</li>
+                                <li>• 市场规模预测</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #2196F3;">数据统计分析</h4>
+                            <p>大数据分析，商业智能决策，提供数据驱动的解决方案</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥12,000 - ¥25,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 数据清洗与预处理</li>
+                                <li>• 统计分析报告</li>
+                                <li>• 可视化仪表板</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #2196F3;">行业研究报告</h4>
+                            <p>专业报告撰写，行业趋势分析，为企业决策提供依据</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥10,000 - ¥20,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 行业深度分析</li>
+                                <li>• 发展趋势预测</li>
+                                <li>• 投资建议报告</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(infoSection);
+            infoSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showTechConsulting() {
+            clearDynamicContent();
+            const techSection = document.createElement('div');
+            techSection.className = 'dynamic-section';
+            techSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>🔧 技术咨询服务</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #FF9800;">系统架构设计</h4>
+                            <p>高可用、高并发架构方案，确保系统稳定性和扩展性</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥15,000 - ¥30,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 微服务架构设计</li>
+                                <li>• 负载均衡方案</li>
+                                <li>• 数据库架构优化</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #FF9800;">性能优化服务</h4>
+                            <p>系统性能调优与瓶颈分析，提升应用响应速度</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥10,000 - ¥20,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 代码性能分析</li>
+                                <li>• 数据库查询优化</li>
+                                <li>• 缓存策略设计</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #FF9800;">技术选型咨询</h4>
+                            <p>最佳技术栈选择建议，确保技术方案符合业务需求</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥8,000 - ¥15,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 前端框架选型</li>
+                                <li>• 后端技术栈推荐</li>
+                                <li>• 数据库技术评估</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(techSection);
+            techSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showSoftwareDev() {
+            clearDynamicContent();
+            const softwareSection = document.createElement('div');
+            softwareSection.className = 'dynamic-section';
+            softwareSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>💻 软件开发服务</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #9C27B0;">Web应用开发</h4>
+                            <p>响应式网站、企业门户、电商平台等Web应用开发</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥25,000 - ¥80,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 响应式设计适配多设备</li>
+                                <li>• 前后端分离架构</li>
+                                <li>• 用户权限管理</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #9C27B0;">移动应用开发</h4>
+                            <p>iOS/Android原生应用，跨平台开发解决方案</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥40,000 - ¥120,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 原生应用性能优化</li>
+                                <li>• 跨平台框架支持</li>
+                                <li>• 应用商店发布</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #9C27B0;">企业系统定制</h4>
+                            <p>ERP、CRM、OA等企业管理系统定制开发</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥50,000 - ¥200,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 业务流程定制</li>
+                                <li>• 数据报表生成</li>
+                                <li>• 系统集成对接</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(softwareSection);
+            softwareSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showHardwareDev() {
+            clearDynamicContent();
+            const hardwareSection = document.createElement('div');
+            hardwareSection.className = 'dynamic-section';
+            hardwareSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>⚙️ 硬件开发服务</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #795548;">嵌入式系统开发</h4>
+                            <p>单片机、ARM架构开发，嵌入式软件与硬件集成</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥30,000 - ¥100,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 实时操作系统开发</li>
+                                <li>• 驱动程序编写</li>
+                                <li>• 硬件接口调试</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #795548;">物联网设备开发</h4>
+                            <p>传感器、网关设备，物联网解决方案开发</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥50,000 - ¥150,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 传感器数据采集</li>
+                                <li>• 无线通信模块集成</li>
+                                <li>• 云端数据对接</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #795548;">智能硬件开发</h4>
+                            <p>智能家居、可穿戴设备，智能硬件产品开发</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥80,000 - ¥200,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 产品外观设计</li>
+                                <li>• 硬件电路设计</li>
+                                <li>• 移动端APP配套</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(hardwareSection);
+            hardwareSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showSystemManagement() {
+            clearDynamicContent();
+            const systemSection = document.createElement('div');
+            systemSection.className = 'dynamic-section';
+            systemSection.innerHTML = `
+                <div class="dashboard" style="margin-top: 2rem;">
+                    <h2>🔄 系统管理服务</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #607D8B;">权限管理系统</h4>
+                            <p>角色权限精细控制，多层级权限管理</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥15,000 - ¥40,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 用户角色管理</li>
+                                <li>• 权限分级控制</li>
+                                <li>• 操作日志记录</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #607D8B;">数据统计分析</h4>
+                            <p>业务数据可视化，实时监控与报表生成</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥20,000 - ¥50,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 数据可视化图表</li>
+                                <li>• 实时监控面板</li>
+                                <li>• 自定义报表生成</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <h4 style="color: #607D8B;">系统配置管理</h4>
+                            <p>灵活的系统配置，参数设置与维护</p>
+                            <p style="color: #4CAF50; font-weight: bold; margin-top: 1rem;">¥10,000 - ¥30,000</p>
+                            <ul style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <li>• 系统参数配置</li>
+                                <li>• 备份恢复功能</li>
+                                <li>• 系统监控告警</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.main-content').appendChild(systemSection);
+            systemSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 页面初始化函数
+        function initializePage() {
+            // 设置默认显示首页内容
+            showHome();
+            
+            // 初始化模态框事件
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.classList.remove('active');
+                }
+            });
+            
+            // 初始化表单提交事件
+            document.getElementById('consultForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('咨询信息已提交，我们将尽快与您联系！');
+                closeConsultModal();
+            });
+            
+            document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('登录成功！');
+                closeLoginModal();
+            });
+            
+            document.getElementById('registerForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('注册成功！');
+                closeRegisterModal();
+            });
+            
+            console.log('页面初始化完成，所有功能已就绪');
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initializePage);
+        
+        // 点击模态框外部关闭
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

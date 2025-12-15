@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台登录 - 本电科技</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f8fafc;
+            --bg-dark: #111827;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+            --border-radius: 8px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            background: var(--bg-dark);
+            color: var(--white);
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 2rem 0;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary-color);
+        }
+        
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: var(--white);
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: var(--white);
+        }
+        
+        .btn-danger {
+            background: var(--danger-color);
+            color: var(--white);
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* 表格 */
+        .table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        tr:hover {
+            background: var(--bg-light);
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #d1fae5;
+            color: var(--success-color);
+        }
+        
+        .status-inactive {
+            background: #fee2e2;
+            color: var(--danger-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+        
+        /* 表单 */
+        .form-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        /* 登录界面样式 */
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+        
+        .login-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            text-align: center;
+        }
+        
+        .login-header {
+            margin-bottom: 2rem;
+        }
+        
+        .login-header h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .login-form {
+            text-align: left;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-form .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .login-form .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .login-form .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        
+        .forgot-password {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+        
+        .login-footer {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .register-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 1rem;
+            }
+            
+            .login-card {
+                padding: 2rem;
+            }
+            
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录界面 -->
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>🚀 本电科技</h1>
+                <p>管理后台登录</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" placeholder="请输入用户名" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" placeholder="请输入密码" required>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remember">
+                        <span>记住密码</span>
+                    </label>
+                    <a href="#" class="forgot-password">忘记密码？</a>
+                </div>
+                
+                <button type="submit" class="login-btn">登录</button>
+            </form>
+            
+            <div class="login-footer">
+                <p>还没有账号？ <a href="#" class="register-link">立即注册</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 登录功能
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            
+            // 简单的登录验证（实际项目中应该与后端API交互）
+            if (username && password) {
+                // 显示登录成功提示
+                showLoginSuccess();
+                
+                // 保存登录状态（如果勾选了记住密码）
+                if (remember) {
+                    localStorage.setItem('adminUsername', username);
+                }
+                
+                // 3秒后跳转到管理后台（这里可以替换为实际的管理后台页面）
+                setTimeout(() => {
+                    window.location.href = 'admin_dashboard.html';
+                }, 2000);
+            } else {
+                alert('请输入用户名和密码');
+            }
+        });
+        
+        // 显示登录成功提示
+        function showLoginSuccess() {
+            const loginBtn = document.querySelector('.login-btn');
+            const originalText = loginBtn.textContent;
+            
+            loginBtn.textContent = '登录成功，正在跳转...';
+            loginBtn.style.background = 'var(--success-color)';
+            loginBtn.disabled = true;
+            
+            // 恢复按钮状态（如果跳转失败）
+            setTimeout(() => {
+                if (window.location.href.includes('admin_panel')) {
+                    loginBtn.textContent = originalText;
+                    loginBtn.style.background = 'var(--primary-color)';
+                    loginBtn.disabled = false;
+                }
+            }, 3000);
+        }
+        
+        // 检查是否有保存的用户名
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedUsername = localStorage.getItem('adminUsername');
+            if (savedUsername) {
+                document.getElementById('username').value = savedUsername;
+                document.getElementById('remember').checked = true;
+            }
+        });
+        
+        // 注册链接点击事件
+        document.querySelector('.register-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('注册功能暂未开放，请联系系统管理员获取账号');
+        });
+        
+        // 忘记密码链接点击事件
+        document.querySelector('.forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('请联系系统管理员重置密码');
+        });
+                        <button class="btn btn-success btn-sm" onclick="updateOrderStatus('${order.id}')">更新状态</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadConsultationsData() {
+            const tbody = document.getElementById('consultationsTableBody');
+            tbody.innerHTML = consultations.map(consult => `
+                <tr>
+                    <td>${consult.id}</td>
+                    <td>${consult.name}</td>
+                    <td>${consult.phone}</td>
+                    <td>${consult.type}</td>
+                    <td title="${consult.content}">${consult.content.length > 20 ? consult.content.substring(0, 20) + '...' : consult.content}</td>
+                    <td>${consult.time}</td>
+                    <td><span class="status-badge">${getConsultStatusText(consult.status)}</span></td>
+                    <td class="action-buttons">
+                        <button class="btn btn-primary btn-sm" onclick="viewConsultation('${consult.id}')">查看</button>
+                        <button class="btn btn-success btn-sm" onclick="updateConsultStatus('${consult.id}')">处理</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getOrderStatusText(status) {
+            const statusMap = {
+                'pending': '待处理',
+                'processing': '处理中',
+                'completed': '已完成',
+                'cancelled': '已取消'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getConsultStatusText(status) {
+            const statusMap = {
+                'new': '新咨询',
+                'processing': '处理中',
+                'resolved': '已解决'
+            };
+            return statusMap[status] || status;
+        }
+
+        // 模态框控制
+        function showAddUserModal() {
+            document.getElementById('addUserModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // 表单提交
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('用户添加成功！');
+            closeModal('addUserModal');
+            this.reset();
+        });
+
+        // 用户操作
+        function editUser(userId) {
+            alert(`编辑用户 ID: ${userId}`);
+        }
+
+        function deleteUser(userId) {
+            if (confirm('确定要删除这个用户吗？')) {
+                alert(`用户 ID: ${userId} 已删除`);
+            }
+        }
+
+        function viewOrder(orderId) {
+            alert(`查看订单: ${orderId}`);
+        }
+
+        function updateOrderStatus(orderId) {
+            alert(`更新订单状态: ${orderId}`);
+        }
+
+        function viewConsultation(consultId) {
+            alert(`查看咨询: ${consultId}`);
+        }
+
+        function updateConsultStatus(consultId) {
+            alert(`处理咨询: ${consultId}`);
+        }
+
+        // 其他功能
+        function logout() {
+            if (confirm('确定要退出登录吗？')) {
+                alert('已退出登录');
+            }
+        }
+
+        function exportUsers() {
+            alert('用户数据导出成功！');
+        }
+
+        function refreshOrders() {
+            alert('订单数据已刷新！');
+        }
+
+        function refreshConsultations() {
+            alert('咨询数据已刷新！');
+        }
+
+        function saveSettings() {
+            alert('系统设置已保存！');
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            console.log('🚀 管理后台加载完成');
+        });
+    </script>
+</body>
+</html>

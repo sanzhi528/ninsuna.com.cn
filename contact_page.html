@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 本电科技</title>
+    <style>
+        /* 加载动画 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loaded .loading-overlay {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --shadow: 0 10px 25px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        /* 主要内容 */
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+            padding: 4rem 0;
+        }
+        
+        .contact-hero {
+            text-align: center;
+            color: var(--white);
+            margin-bottom: 4rem;
+        }
+        
+        .contact-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .contact-hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        
+        /* 联系信息卡片 */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .contact-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .contact-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .contact-info {
+            list-style: none;
+            text-align: left;
+        }
+        
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-icon {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            width: 24px;
+        }
+        
+        /* 公司LOGO区域 */
+        .logo-section {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .company-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .company-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .company-slogan {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        
+        /* 域名展示 */
+        .domains-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .domain-item {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .domain-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 地图区域 */
+        .map-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 4rem;
+        }
+        
+        .map-container {
+            height: 400px;
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+        
+        /* 表单样式 */
+        .form-section {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .contact-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .contact-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .domains-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载动画 -->
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="bentiun_tech.html" class="logo">
+                    <span class="logo-icon">🚀</span>
+                    <span>本电科技</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="bentiun_tech.html" class="nav-link">首页</a></li>
+                    <li><a href="customer_portal.html" class="nav-link">客户中心</a></li>
+                    <li><a href="admin_panel.html" class="nav-link">管理后台</a></li>
+                    <li><a href="#" class="nav-link active">联系我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 联系信息英雄区域 -->
+            <section class="contact-hero">
+                <h1>联系我们</h1>
+                <p>我们随时准备为您提供专业的科技服务和支持</p>
+            </section>
+
+            <!-- 公司LOGO和介绍 -->
+            <section class="logo-section">
+                <div class="company-logo">🚀</div>
+                <div class="company-name">本电科技</div>
+                <div class="company-slogan">专业的科技服务提供商，致力于为企业数字化转型提供全方位解决方案</div>
+                
+                <div class="domains-grid">
+                    <div class="domain-item">
+                        <div class="domain-name">www.bentiun.com</div>
+                        <div>主域名</div>
+                    </div>
+                    <div class="domain-item">
+                        <div class="domain-name">www.bentiun.com.cn</div>
+                        <div>中国区域名</div>
+                    </div>
+                    <div class="domain-item">
+                        <div class="domain-name">www.bentiun.cn</div>
+                        <div>中文域名</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 联系信息卡片 -->
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>公司地址</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <span class="info-icon">🏢</span>
+                            <span>中国广东省深圳市龙岗区龙岗街道龙岗路9号东森大厦</span>
+                        </li>
+                        <li>
+                            <span class="info-icon">🌍</span>
+                            <span>广东省深圳市龙岗区</span>
+                        </li>
+                        <li>
+                            <span class="info-icon">📮</span>
+                            <span>邮政编码: 518000</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+                    <h3>联系方式</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <span class="info-icon">📱</span>
+                            <span>电话: +86-0755-85216839</span>
+                        </li>
+                        <li>
+                            <span class="info-icon">📧</span>
+                            <span>邮箱: 1006993710@qq.com</span>
+                        </li>
+                        <li>
+                            <span class="info-icon">💬</span>
+                            <span>客服QQ: 123456789</span>
+                        </li>
+                        <li>
+                            <span class="info-icon">🕒</span>
+                            <span>工作时间: 周一至周五 9:00-18:00</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">💼</div>
+                    <h3>业务范围</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <span class="info-icon">💡</span>
+                            <span>科技信息咨询</span>
+                        </li>
+                        <li>
+                            <span class="info-icon">💻</span>
+                            <span>软件开发服务</span>
+                        </li>
+                        <li>
+                            <span class="info-icon">📱</span>
+                            <span>电子产品销售</span>
+                        </li>
+                        <li>
+                            <span class="info-icon">🔧</span>
+                            <span>技术支持服务</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 地图区域 -->
+            <section class="map-section">
+                <h2 class="section-title">公司位置</h2>
+                <div class="map-container">
+                    <div style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
+                        <div>深圳市龙岗区龙岗街道龙岗路9号东森大厦</div>
+                        <div style="margin-top: 1rem; color: var(--text-light);">地图服务集成（实际部署时可集成百度地图或高德地图）</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 联系表单 -->
+            <section class="form-section">
+                <h2 class="section-title">在线留言</h2>
+                <form id="contactForm">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label for="contactName">姓名</label>
+                            <input type="text" id="contactName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">电话</label>
+                            <input type="tel" id="contactPhone" required>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label for="contactEmail">邮箱</label>
+                            <input type="email" id="contactEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactType">咨询类型</label>
+                            <select id="contactType" required>
+                                <option value="">请选择</option>
+                                <option value="tech">技术咨询</option>
+                                <option value="software">软件开发</option>
+                                <option value="product">产品咨询</option>
+                                <option value="cooperation">合作洽谈</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactSubject">主题</label>
+                        <input type="text" id="contactSubject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactMessage">留言内容</label>
+                        <textarea id="contactMessage" rows="6" placeholder="请详细描述您的需求或问题..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">提交留言</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>本电科技</h3>
+                    <p>专业的科技服务提供商，致力于为企业数字化转型提供全方位解决方案。</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="contact-info" style="color: var(--white);">
+                        <li><a href="bentiun_tech.html" style="color: var(--white); text-decoration: none;">网站首页</a></li>
+                        <li><a href="customer_portal.html" style="color: var(--white); text-decoration: none;">客户中心</a></li>
+                        <li><a href="admin_panel.html" style="color: var(--white); text-decoration: none;">管理后台</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>联系信息</h3>
+                    <ul class="contact-info" style="color: var(--white);">
+                        <li>📍 中国广东省深圳市龙岗区龙岗街道龙岗路9号东森大厦</li>
+                        <li>📞 +86-0755-85216839</li>
+                        <li>📧 1006993710@qq.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 本电科技. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.body.classList.add('loaded');
+            }, 500);
+        });
+
+        // 表单提交处理
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('留言提交成功！我们将尽快与您联系。');
+            this.reset();
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        console.log('🚀 联系页面加载完成');
+    </script>
+</body>
+</html>
